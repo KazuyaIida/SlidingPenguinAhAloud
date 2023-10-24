@@ -32,8 +32,8 @@ public class RespawnCamera : MonoBehaviour
 
     private IEnumerator ResetBrainUpdateMethod()
     {
-        // 1ƒtƒŒ[ƒ€‘Ò‚Â
-        yield return null;
+        // 0.1•b‘Ò‚Â
+        yield return new WaitForSeconds(0.10f);
 
         // Œ³‚É–ß‚·
         transposer.m_XDamping = 5.0f;

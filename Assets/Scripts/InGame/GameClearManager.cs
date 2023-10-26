@@ -45,10 +45,30 @@ namespace penguin
             // UIをoffにする
             inGameUISwitcher.UnActivateInGameUI();
 
-            // ResultsManagerが持つResultクラスのインスタンスにデータを格納
             bool isSucceeded = timeKeeper.elapsedTime < ParameterManager.limitedTime;
-            Result result = new Result(ExperimentManager.currentTrialCount, isSucceeded, timeKeeper.elapsedTime, RespawnManager.respawnCount, FishManager.GetAcquiredNumber());
+
+            // ResultsManagerが持つResultクラスのインスタンスにデータを格納
+            Result result = new Result(
+                ExperimentManager.currentTrialCount, 
+                isSucceeded, 
+                timeKeeper.elapsedTime, 
+                RespawnManager.respawnCount, 
+                FishManager.GetAcquiredNumber()
+                );
             ResultsManager.results[ExperimentManager.currentTrialCount] = result;
+
+            // GameDataExportが持つCSVクラスのインスタンスにデータを格納
+            CSV csv = new CSV(
+                ExperimentManager.currentTrialCount, 
+                isSucceeded, 
+                FishManager.GetAcquiredNumber(), 
+                RespawnManager.respawnCount, 
+                timeKeeper.elapsedTime, 
+                200.0f, 
+                ParameterManager.sensitivity, 
+                ParameterManager.limitedTime
+                );
+            GameDataExport.csv[ExperimentManager.currentTrialCount] = csv;
 
             // データポスト
             outputDataManager.PostData(true, FishManager.GetAcquiredNumber(), timeKeeper.elapsedTime.ToString(), 200.0f, ParameterManager.sensitivity, ParameterManager.limitedTime); 

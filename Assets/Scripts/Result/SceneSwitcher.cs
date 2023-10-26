@@ -13,7 +13,10 @@ namespace penguin
         
         // InGameシーンに遷移し再プレイするボタン
         [SerializeField] private Button retryButton;
-        
+
+        // InGameシーンに遷移し次の試行を実行するボタン
+        [SerializeField] private Button nextButton;
+
         // SE再生・停止クラス
         [SerializeField] private ResultSceneAudio audio;
         
@@ -22,6 +25,7 @@ namespace penguin
         {
             homeButton.onClick.AddListener(() => StartCoroutine("LoadStartScene"));
             retryButton.onClick.AddListener(() => StartCoroutine("LoadInGameScene"));
+            nextButton.onClick.AddListener(() => StartCoroutine("LoadNextInGameScene"));
         }
         
         
@@ -32,6 +36,8 @@ namespace penguin
 
             // Resultデータをすべて破棄する
             ResultsManager.results = new Result[ExperimentManager.totalTrialNum];
+            // CSVデータをすべて破棄する
+            GameDataExport.csv = new CSV[ExperimentManager.totalTrialNum];
 
             // Trialのカウントをリセットする
             ExperimentManager.currentTrialCount = 0;
@@ -44,10 +50,18 @@ namespace penguin
             audio.TransitionClick.Play();
             yield return new WaitForSeconds(1.0f);
 
+            SceneManager.LoadScene ("InGame");
+        }
+
+        private IEnumerator LoadNextInGameScene()
+        {
+            audio.TransitionClick.Play();
+            yield return new WaitForSeconds(1.0f);
+
             // Trialのカウントを更新する
             ExperimentManager.currentTrialCount++;
 
-            SceneManager.LoadScene ("InGame");
+            SceneManager.LoadScene("InGame");
         }
     }
 
